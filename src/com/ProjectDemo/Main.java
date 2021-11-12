@@ -17,9 +17,21 @@ public class Main {
             switch (ans) {
                 case "0" -> isRunning = false;
                 case "1" -> registerUser(userInput);
-                case "2" -> loginUser(userInput);
+                case "2" -> {
+                    loginUser(userInput);
+                    isRunning = false;
+                }
             }
+
         }
+        System.out.println("1.Play \n2.Logout");
+            String ans = userInput.nextLine();
+            switch (ans) {
+                case "1" -> System.out.println("let's get it!");
+                case "2" -> System.exit(0);
+            }
+            //logout function -> close
+
     }
 
 }
