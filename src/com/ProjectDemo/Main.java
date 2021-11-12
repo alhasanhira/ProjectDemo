@@ -1,27 +1,34 @@
 package com.ProjectDemo;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-
-        ArrayList<User> users = new ArrayList<>();
+        boolean loginflag = false;
+        Map<String,String> users = new Hashtable<>();
 
         Scanner userInput = new Scanner(System.in);
-        while(true) {
-            System.out.println("1.Register\n2.Login\n3.Show User");
+
+        while(!loginflag) {
+            System.out.println("\n\nRIDDLARK\n\n1.Register\n2.Login\n3.Show User");
             String ans = userInput.nextLine();
             if (ans.equals("1")) {
                 System.out.println("Enter Your Username:");
                 String username = userInput.nextLine();
-                System.out.println("Enter a password:");
-                String password = userInput.nextLine();
 
-                User user1 = new User(username, password);
-                users.add(user1);
+                if(users.containsKey(username)){
+                    System.out.println("This username is already taken!");
+                }
+
+                else {
+                    System.out.println("Enter a password:");
+                    String password = userInput.nextLine();
+                    users.put(username, password);
+                    System.out.println("Registration Completed!");
+                }
             }
             if(ans.equals("2")){
                 System.out.println("Enter Your Username:");
@@ -29,21 +36,30 @@ public class Main {
                 System.out.println("Enter a password:");
                 String checkPass = userInput.nextLine();
 
-                if(users.contains(checkName) && users.contains(checkPass)){
+                if(users.containsKey(checkName) && users.get(checkName).contentEquals(checkPass)){
                     System.out.println("you are verified");
+                    loginflag = true;
                 }
                 else{
                     System.out.println("You are not verified");
                 }
             }
-            if(ans.equals("3")){
-                Iterator itr = users.iterator();
-                while (itr.hasNext()){
-                    User u =(User) itr.next();
-                    System.out.println("username:"+u.getUsername()+"\nPassword:"+u.getPassword());
+            /*if(ans.equals("3")){
+                for (Map.Entry<String, String> entry : users.entrySet()) {
+                    System.out.println("username: " + entry.getKey() + "\npassword: " + entry.getValue());
                 }
-            }
+            }*/
             if (ans.equals("0")) break;
+        }
+
+        while(loginflag) {
+            System.out.println("Press Enter key to continue...");
+            try {
+                System.in.read();
+            }
+            catch(Exception e)
+            {}
+            //need to add code here.
         }
     }
 }
