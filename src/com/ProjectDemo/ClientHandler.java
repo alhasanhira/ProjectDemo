@@ -19,7 +19,7 @@ public class ClientHandler implements Runnable {
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.clientUsername = bufferedReader.readLine();
             clientHandlers.add(this);
-            broadcastMessage("SERVER:"+clientUsername+"is online");
+            broadcastMessage("SERVER: "+clientUsername+" is online");
         }catch (IOException e){
             closeEverything(socket, bufferedWriter, bufferedReader);
         }
