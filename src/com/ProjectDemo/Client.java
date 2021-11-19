@@ -4,68 +4,72 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+
 public class Client {
-    private Socket socket;
+    private Socket clientSocket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    private String username;
     private static final String host = "localhost";
-    private static final int port = 12345;
+    private static final Integer port = 1234;
 
-    public Client(Socket socket, String username){
+    public Client(Socket clientSocket){
         try{
-            this.socket = socket;
-            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.username = username;
+            this.clientSocket = clientSocket;
+            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            this. bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         }catch (IOException e){
-            closeEverything(socket, bufferedWriter, bufferedReader);
+            e.printStackTrace();
         }
     }
+
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your username to join the chat: ");
-        String username = scanner.nextLine();
-        Socket socket = new Socket(host,port);
-        Client client = new Client(socket,username);
-        client.listenMessage();
-        client.sendMessage();
+        Socket clientSocket = new Socket(host,port);
+        Client client = new Client(clientSocket);
+        Scanner userInput = new Scanner(System.in);
+        while (true){
+            System.out.println("1.Register\n2.Login");
+            String ans = userInput.nextLine();
+            switch (ans) {
+                case "0" : break;
+                case "1":
+                    System.out.println("Enter Your Username:");
+                    String username = userInput.nextLine();
+                    System.out.println("Enter a password:");
+                    String password = userInput.nextLine();
+                    String data =ConstantTexts.register+":"+username+":"+password;
+                    client.sendMessage(data);
+                    break;
+                case "2" :
+                    Login.loginUser(userInput);
+                    break;
+            }
+        }
     }
 
-    public void sendMessage(){
+    public void sendMessage(String sendTo){
         try{
-            bufferedWriter.write(username);
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-
-            Scanner scanner = new Scanner(System.in);
-            while (socket.isConnected()){
-                String sendTo = scanner.nextLine();
-                bufferedWriter.write(username+": "+sendTo);
+            while (clientSocket.isConnected()){
+                bufferedWriter.write(sendTo);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
         }catch (IOException e){
-            closeEverything(socket, bufferedWriter, bufferedReader);
+            closeEverything(clientSocket, bufferedWriter, bufferedReader);
         }
     }
 
     public void listenMessage(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String messageFrom;
-                while(socket.isConnected()){
-                    try{
-                        messageFrom = bufferedReader.readLine();
-                        System.out.println(messageFrom);
-                    }catch (IOException e){
-                        closeEverything(socket, bufferedWriter, bufferedReader);
-                    }
-                }
+        String messageFrom;
+        while(clientSocket.isConnected()){
+            try{
+                messageFrom = bufferedReader.readLine();
+                System.out.println(messageFrom);
+            }catch (IOException e){
+                closeEverything(clientSocket, bufferedWriter, bufferedReader);
             }
-        }).start();
+        }
     }
+
     public void closeEverything(Socket socket, BufferedWriter bufferedWriter, BufferedReader bufferedReader){
         try{
             if(socket != null){
@@ -81,4 +85,7 @@ public class Client {
             e.printStackTrace();
         }
     }
+
+
+
 }
