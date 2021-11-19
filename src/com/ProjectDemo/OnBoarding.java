@@ -1,22 +1,22 @@
-package com.ProjectDemo;
+/*package com.ProjectDemo;
 
 import java.util.*;
 
 import static com.ProjectDemo.Login.loginUser;
 import static com.ProjectDemo.Register.registerUser;
 
-public class Main {
+public class OnBoarding {
 
-    public static void main(String[] args) {
+    public static void onboarding() {
 
         Scanner userInput = new Scanner(System.in);
-        boolean isRunning = true;
+
         while(isRunning) {
             System.out.println("1.Register\n2.Login");
-            String ans = userInput.nextLine();
+            String ans = new BufferedReader(new InputStreamReader(System.in));
             switch (ans) {
                 case "0" -> isRunning = false;
-                case "1" -> registerUser(userInput);
+                case "1" -> registerUser(userInput);//
                 case "2" -> {
                     loginUser(userInput);
                     isRunning = false;
@@ -30,8 +30,8 @@ public class Main {
                 case "1" -> System.out.println("let's get it!");
                 case "2" -> System.exit(0);
             }
-            //logout function -> close
 
     }
 
 }
+*/

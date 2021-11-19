@@ -7,9 +7,9 @@ public class Register {
     public static void registerUser(Scanner userInput) {
 
         while(true){
-        System.out.println("Enter Your Username:");
+        System.out.println("Enter Your ID:");
         String username = userInput.nextLine();
-        System.out.println("Enter a password:");
+        System.out.println("Enter your password:");
         String password = userInput.nextLine();
         if(StoreData.getInstance().getUser(username) != null){
             System.out.println("This username is already taken.");

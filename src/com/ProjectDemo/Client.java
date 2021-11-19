@@ -23,6 +23,7 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
+<<<<<<< HEAD
         Socket clientSocket = new Socket(host,port);
         Client client = new Client(clientSocket);
         Scanner userInput = new Scanner(System.in);
@@ -44,7 +45,23 @@ public class Client {
                     break;
             }
         }
+=======
+        Scanner scanner = new Scanner(System.in);
+        //put the username on the Active user map.
+
+        System.out.println("Enter your username to join the chat: ");
+        String username = scanner.nextLine();
+        Socket socket = new Socket(host,port);
+        Client client = new Client(socket,username);
+
+        System.out.println("You joined the chat.");
+        client.listenMessage();
+        client.sendMessage();
+
+
+>>>>>>> 443800ded04cf94eb519b8801fb1e2530b742009
     }
+    //just display things here..?
 
     public void sendMessage(String sendTo){
         try{

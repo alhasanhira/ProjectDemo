@@ -1,6 +1,6 @@
 package com.ProjectDemo;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -21,6 +21,29 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void Onboarding() {
+        boolean isRunning = true;
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        While(isRunning){
+            try {String ans = input.readLine();
+
+            switch (ans) {
+                case "0" -> isRunning = false;
+                case "1" -> // registration
+                case "2" -> // login
+            }
+        } catch (IOException e){
+                closeEverything(socket, output, input);}
+    }
+
+
+        System.out.println("username" + username);
+        String password = input.readLine();
+        System.out.println("password" + password);
+
     }
     public void startServer(){
         try {
